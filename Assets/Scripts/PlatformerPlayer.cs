@@ -31,6 +31,7 @@ public class PlatformerPlayer : MonoBehaviour
         Collider2D hit = Physics2D.OverlapArea(corner1, corner2);
 
         bool grounded = hit != null;
+        _rb.gravityScale = (grounded && Mathf.Approximately(deltaX, 0)) ? 0 : 1;
         if (grounded && Input.GetKeyDown(KeyCode.Space))
         {
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);

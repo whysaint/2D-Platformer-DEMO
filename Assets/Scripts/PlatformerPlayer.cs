@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class PlatformerPlayer : MonoBehaviour
@@ -10,7 +8,9 @@ public class PlatformerPlayer : MonoBehaviour
     private Rigidbody2D _rb;
     private Animator _anim;
     private BoxCollider2D _box;
-    
+    private float _moveInput;
+    private bool _jumpPressed;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -20,7 +20,15 @@ public class PlatformerPlayer : MonoBehaviour
 
     private void Update()
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
+        _moveInput = Input.GetAxis("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            _jumpPressed = true;
+    }
+
+    private void FixedUpdate()
+    {
+        float deltaX = _moveInput * speed;
         Vector2 movement = new Vector2(deltaX, _rb.linearVelocity.y);
         _rb.linearVelocity = movement;
 
@@ -28,15 +36,14 @@ public class PlatformerPlayer : MonoBehaviour
         Vector3 min = _box.bounds.min;
         Vector2 corner1 = new Vector2(max.x, min.y - .1f);
         Vector2 corner2 = new Vector2(min.x, min.y - .2f);
-        Collider2D hit = Physics2D.OverlapArea(corner1, corner2);
+        bool grounded = Physics2D.OverlapArea(corner1, corner2);
 
-        bool grounded = hit != null;
-        _rb.gravityScale = (grounded && Mathf.Approximately(deltaX, 0)) ? 0 : 1;
-        if (grounded && Input.GetKeyDown(KeyCode.Space))
+        if (grounded && _jumpPressed)
         {
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
-        
+        _jumpPressed = false;
+
         _anim.SetFloat("speed", Mathf.Abs(deltaX));
         if (!Mathf.Approximately(deltaX, 0))
         {

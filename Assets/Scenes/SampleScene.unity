@@ -1042,7 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finistPos: {x: 0, y: 0, z: 0}
   speed: 0.5
-  startPos: {x: -1.68, y: 0, z: 0}
+  startPos: {x: 0, y: 0, z: 0}
   trackPercent: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

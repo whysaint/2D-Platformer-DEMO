@@ -21,7 +21,7 @@ public class MovingPlatform : MonoBehaviour
     {
         trackPercent += _derection * speed * Time.deltaTime;
         float x = (finistPos.x - startPos.x) * trackPercent + startPos.x;
-        float y = (finistPos.y - startPos.y) * trackPercent + startPos.x;
+        float y = (finistPos.y - startPos.y) * trackPercent + startPos.y;
         transform.position = new Vector3(x, y, startPos.z);
 
         if ((_derection == 1 && trackPercent > .9f) || (_derection == -1 && trackPercent < .1f))
